@@ -10,11 +10,11 @@
 <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">-->
 
-<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--<script src="jquery-3.2.1.min.js"></script>-->
 
 <script src="scripts/utils.js"></script>
-<script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="//d3js.org/d3.v4.min.js"></script>
 <!--<script src="d3/d3.min.js"></script>-->
 <script src="scripts/graphConf.js"></script>
 <script src="scripts/graphShapes.js"></script>
@@ -22,7 +22,11 @@
 <script src="scripts/graph_viz.js"></script>
 <script src="scripts/graphioGremlin.js"></script>
 <script src="scripts/editGraph.js"></script>
-
+<script src="scripts/aws_utils.js"></script>
+<script src="//sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+<script src="bower_components/cryptojslib/rollups/sha256.js"></script>
+<script src="bower_components/cryptojslib/rollups/hmac-sha256.js"></script>
+<script src="bower_components/aws-sign-web/aws-sign-web.min.js"></script>
 <script type="text/javascript">
 
 	///////////////////////////////////////////////
@@ -231,7 +235,20 @@
 					
 					
 
-
+					<div class="nav">
+						<div class="nav input_unit_container">
+							<label class="nav input_label" for="aws_iam">Key:</label>
+							<input name="aws_key" id="aws_key" value="" />
+						</div>
+						<div class="nav input_unit_container">
+							<label class="nav input_label" for="aws_iam">Secret:</label>
+							<input name="aws_secret" id="aws_secret" value="" />
+						</div>	
+						<div class="nav input_unit_container">
+							<label class="nav input_label" for="aws_iam">Session:</label>
+							<input name="session" id="aws_session" value="" />
+						</div>	
+					</div>
 			</div>
 				<a href="http://www.github.com/bricaud/graphexp">Graph Explorer V 0.8.0</a>
 			</div>

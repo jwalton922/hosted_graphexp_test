@@ -144,8 +144,8 @@ var graphioGremlin = (function(){
 			var edgeQuery = create_single_command(gremlin_query_edges_no_vars);
 			console.log("Node query: "+nodeQuery);
 			console.log("Edge query: "+edgeQuery);
-			send_to_server(nodeQuery, null, null, null, function(nodeData){
-				send_to_server(edgeQuery, null, null, null, function(edgeData){
+			send_to_server(nodeQuery, null, null, null, function(nodeData){                            
+				send_to_server(edgeQuery, null, null, null, function(edgeData){                                        
 					var combinedData = [nodeData,edgeData];
 					handle_server_answer(combinedData, 'search', null, message);
 				});
@@ -187,19 +187,40 @@ var graphioGremlin = (function(){
 				} else {
 					send_to_server(gremlin_query,'click',d.id,message);
 				}
-	}
+	}	
 
 	function send_to_server(gremlin_query,query_type,active_node,message, callback){
-
+		console.log("SINGLE_COMMAND_AND_NO_VARS = "+SINGLE_COMMANDS_AND_NO_VARS);
 		let server_address = $('#server_address').val();
 		let server_port = $('#server_port').val();
 		let COMMUNICATION_PROTOCOL = $('#server_protocol').val();
+		var webProtocol = location.protocol === 'https:'? 'https:': 'http:';
+		var wsProtocol = location.protocol === 'https:'? 'wss:': 'ws:';
+		
+		var credentials = {
+			accessKeyId: awsKey,
+			secretAccessKey: awsSecret,
+			sessionToken: awsSession
+		}
+		console.log("protocols: web: "+webProtocol+" ws: "+wsProtocol);
 			if (COMMUNICATION_PROTOCOL == 'REST'){
-				let server_url = "http://"+server_address+":"+server_port;
-				run_ajax_request(gremlin_query,server_url,query_type,active_node,message,callback);
+				var server_url = webProtocol+"//"+server_address+":"+server_port;
+				var headers = null;
+				if(awsKey && awsSecret){
+					//server_url = SigV4Utils.getSignedUrl(server_address+":"+server_port, "us-east-1", credentials, webProtocol, 'POST', '{"gremlin":"'+gremlin_query+'"}');
+					headers = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'GET', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').headers;
+					
+				}
+				run_ajax_request(gremlin_query,server_url,query_type,active_node,message,headers,callback);
 			}
 			else if (COMMUNICATION_PROTOCOL == 'websocket'){
-				let server_url = "ws://"+server_address+":"+server_port+"/gremlin"
+				var server_url = wsProtocol+"//"+server_address+":"+server_port+"/gremlin";
+				if(awsKey && awsSecret){
+					// server_url = SigV4Utils.getSignedUrl(server_address+":"+server_port, "us-east-1", credentials, wsProtocol, 'GET');
+					// function(host, method, query_type, query,protocol, credentials)
+					//server_url = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'GET', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').url;
+				}
+				
 				run_websocket_request(gremlin_query,server_url,query_type,active_node,message,callback);
 			}
 			else {
@@ -211,7 +232,7 @@ var graphioGremlin = (function(){
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// AJAX request for the REST API
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	function run_ajax_request(gremlin_query,server_url,query_type,active_node,message, callback){
+	function run_ajax_request(gremlin_query,server_url,query_type,active_node,message, headers,callback){
 		// while busy, show we're doing something in the messageArea.
 		$('#messageArea').html('<h3>(loading)</h3>');
 
@@ -221,6 +242,7 @@ var graphioGremlin = (function(){
 			accept: "application/json",
 			//contentType:"application/json; charset=utf-8",
 			url: server_url,
+			headers: headers,
 			//headers: GRAPH_DATABASE_AUTH,
 			timeout: REST_TIMEOUT,
 			data: JSON.stringify({"gremlin" : gremlin_query}),
