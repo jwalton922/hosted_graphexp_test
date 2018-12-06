@@ -99,14 +99,14 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
     //# Step 4: Create the canonical headers and signed headers. Header names
     //# must be trimmed and lowercase, and sorted in code point order from
     //# low to high. Note that there is a trailing \n.
-    var canonical_headers = 'connection:Upgrade'+'\n'+'host:' + host + '\n'+'upgrade:websocket'+'\n' + 'x-amz-date:' + amzdate + '\n';
+    var canonical_headers = 'host:' + host + '\n'+ 'x-amz-date:' + amzdate + '\n';
 
     //# Step 5: Create the list of signed headers. This lists the headers
     //# in the canonical_headers list, delimited with ";" and in alpha order.
     //# Note: The request can include any headers; canonical_headers and
     //# signed_headers lists those that you want to be included in the
     //# hash of the request. "Host" and "x-amz-date" are always required.
-    var signed_headers = 'connection;host;upgrade;x-amz-date';
+    var signed_headers = 'host;x-amz-date';
 
     //# Step 6: Create payload hash (hash of the request body content). For GET
     //# requests, the payload is an empty string ("").

@@ -196,7 +196,7 @@ var graphioGremlin = (function(){
 		let COMMUNICATION_PROTOCOL = $('#server_protocol').val();
 		var webProtocol = location.protocol === 'https:'? 'https:': 'http:';
 		var wsProtocol = location.protocol === 'https:'? 'wss:': 'ws:';
-		var checkCreds = false;
+		var checkCreds = $('#aws_enable_iam').val();
 		var awsKey = null;
 		var awsSecret = null;
 		var awsSession = null;
