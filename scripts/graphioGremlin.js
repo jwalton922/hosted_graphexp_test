@@ -219,7 +219,7 @@ var graphioGremlin = (function(){
 					headers = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'GET', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').headers;
 					
 				}
-				run_ajax_request(gremlin_query,server_url,query_type,active_node,message,headers,callback);
+				run_ajax_request(gremlin_query,server_url+'/gremlin/',query_type,active_node,message,headers,callback);
 			}
 			else if (COMMUNICATION_PROTOCOL == 'websocket'){
 				var server_url = wsProtocol+"//"+server_address+":"+server_port+"/gremlin";
