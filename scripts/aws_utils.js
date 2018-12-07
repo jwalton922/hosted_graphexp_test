@@ -55,14 +55,17 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
 
     //# get canonical_uri and payload
     var canonical_uri= '/gremlin/';//get_canonical_uri_and_payload(query_type, query)
-    var payload = {gremlin: query};
-    // if(method === 'POST'){
-    //   payload = 
-    // }
+    var payload = query;
+    if(method === 'POST'){
+      payload = {gremlin: query};
+    }
     //# ************* REQUEST VALUES *************
 
     //# do the encoding => quote_via=urllib.parse.quote is used to map " " => "%20"
     var request_parameters = encodeURIComponent(JSON.stringify(payload));//urllib.parse.urlencode(payload, quote_via=urllib.parse.quote));
+    if(method === 'GET'){
+        request_parameters = 'gremlin='+request_parameters;
+    }
     console.log("Request parameters: ",request_parameters);
     //# ************* TASK 1: CREATE A CANONICAL REQUEST *************
     //# http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
