@@ -216,7 +216,7 @@ var graphioGremlin = (function(){
 				var headers = null;
 				if(awsKey && awsSecret){
 					//server_url = SigV4Utils.getSignedUrl(server_address+":"+server_port, "us-east-1", credentials, webProtocol, 'POST', '{"gremlin":"'+gremlin_query+'"}');
-					headers = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'GET', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').headers;
+					headers = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'POST', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').headers;
 					
 				}
 				run_ajax_request(gremlin_query,server_url+'/gremlin/',query_type,active_node,message,headers,callback);
