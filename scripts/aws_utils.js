@@ -55,11 +55,10 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
 
     //# get canonical_uri and payload
     var canonical_uri= '/gremlin/';//get_canonical_uri_and_payload(query_type, query)
-    //maybe only do this for HTTP and not for WS ???
-    var payload = '';
-    if(method === 'POST'){
-      payload = {gremlin: query};
-    }
+    var payload = {gremlin: query};
+    // if(method === 'POST'){
+    //   payload = 
+    // }
     //# ************* REQUEST VALUES *************
 
     //# do the encoding => quote_via=urllib.parse.quote is used to map " " => "%20"
