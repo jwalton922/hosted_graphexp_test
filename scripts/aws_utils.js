@@ -160,7 +160,7 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
     } else {
         console.log('Request method is neither "GET" nor "POST", something is wrong here.');
     }
-
+    console.log("Headers",headers);
     var canonicalQuerystring = 'X-Amz-Algorithm=' + algorithm;
     canonicalQuerystring += '&X-Amz-Credential=' + encodeURIComponent(credentials.accessKeyId + '/' + credential_scope);
     canonicalQuerystring += '&X-Amz-Date=' + amzdate;
