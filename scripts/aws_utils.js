@@ -57,7 +57,7 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
     var canonical_uri= '/gremlin/';//get_canonical_uri_and_payload(query_type, query)
     //maybe only do this for HTTP and not for WS ???
     var payload = '';
-    if(method.startsWith('http')){
+    if(protocol.startsWith('http')){
       payload = {gremlin: query};
     }
     //# ************* REQUEST VALUES *************
