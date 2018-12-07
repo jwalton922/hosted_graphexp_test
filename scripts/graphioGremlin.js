@@ -224,7 +224,7 @@ var graphioGremlin = (function(){
 			else if (COMMUNICATION_PROTOCOL == 'websocket'){
 				var server_url = wsProtocol+"//"+server_address+":"+server_port+"/gremlin";
 				if(awsKey && awsSecret){
-					// server_url = SigV4Utils.getSignedUrl(server_address+":"+server_port, "us-east-1", credentials, wsProtocol, 'GET');
+					server_url = SigV4Utils.getSignedUrl(server_address+":"+server_port, "us-east-1", credentials, wsProtocol, 'GET');
 					// function(host, method, query_type, query,protocol, credentials)
 					//server_url = SigV4Utils.joshSignedUrl(server_address+":"+server_port, 'GET', '/gremlin/',gremlin_query,wsProtocol,credentials,'us-east-1').url;
 				}
