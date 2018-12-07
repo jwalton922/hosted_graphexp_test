@@ -57,12 +57,12 @@ SigV4Utils.joshSignedUrl = function(host, method, query_type, query,protocol, cr
     var canonical_uri= '/gremlin/';//get_canonical_uri_and_payload(query_type, query)
     var payload = query;
     if(method === 'POST'){
-      payload = {gremlin: query};
+      payload = JSON.stringify({gremlin: query});
     }
     //# ************* REQUEST VALUES *************
 
     //# do the encoding => quote_via=urllib.parse.quote is used to map " " => "%20"
-    var request_parameters = encodeURIComponent(JSON.stringify(payload));//urllib.parse.urlencode(payload, quote_via=urllib.parse.quote));
+    var request_parameters = escape(payload);//urllib.parse.urlencode(payload, quote_via=urllib.parse.quote));
     if(method === 'GET'){
         request_parameters = 'gremlin='+request_parameters;
     }
